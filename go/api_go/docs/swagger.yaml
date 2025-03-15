@@ -1,0 +1,113 @@
+basePath: /api
+definitions:
+  handlers.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  handlers.MatrixRequest:
+    properties:
+      matrix:
+        items:
+          items:
+            type: number
+          type: array
+        type: array
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  description: Esta API maneja autenticación con JWT en Go usando Fiber.
+  title: API RESTful con Fiber
+  version: "1.0"
+paths:
+  /api/login:
+    post:
+      consumes:
+      - application/json
+      description: Autentica un usuario y devuelve un token JWT
+      parameters:
+      - description: Credenciales de usuario
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Token generado
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Error en la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Credenciales incorrectas
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Iniciar sesión
+      tags:
+      - Auth
+  /api/matrix/qr:
+    post:
+      consumes:
+      - application/json
+      description: Calcula la descomposición QR de una matriz rectangular
+      parameters:
+      - description: Matriz de entrada
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.MatrixRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Matrices Q y R
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Error en la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Factorización QR
+      tags:
+      - Matrices
+  /api/private/dashboard:
+    get:
+      description: Accede a información protegida con JWT
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Bienvenida y user_id
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Token inválido
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Obtener dashboard
+      tags:
+      - Dashboard
+swagger: "2.0"
