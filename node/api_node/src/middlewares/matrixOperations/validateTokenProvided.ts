@@ -9,9 +9,9 @@ export const validateTokenProvided = (
   next: NextFunction
 ) => {
   const token = req.headers.authorization || "";
-
+  console.log("SECRET_KEY",SECRET_KEY)
   jwt.verify(token, SECRET_KEY, (err, user) => {
-    if (err) return res.status(403).json({ message: "Token inválido" });
+    if (err) return res.status(403).json({ message: "Token inválido"});
     next();
   });
 };

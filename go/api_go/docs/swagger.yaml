@@ -16,7 +16,7 @@ definitions:
           type: array
         type: array
     type: object
-host: localhost:3000
+host: localhost:8080
 info:
   contact: {}
   description: Esta API maneja autenticación con JWT en Go usando Fiber.

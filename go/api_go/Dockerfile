@@ -24,8 +24,9 @@ WORKDIR /app
 
 COPY --from=builder /app .
 
-ENV PORT=3000 \
-    JWT_SECRET=supersecreto123 
+ENV PORT=8080 \
+    JWT_SECRET=supersecreto123 \
+    APP_VUE_PROD=https://app-vue-fe-46101751761.us-central1.run.app
 
 EXPOSE $PORT
 
